@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "chart-1.fullname" . }}
+  name: {{ include "new-chart.fullname" . }}
   labels:
-{{ include "chart-1.labels" . | indent 4 }}
+{{ include "new-chart.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "chart-1.name" . }}
+      app.kubernetes.io/name: {{ include "new-chart.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "chart-1.name" . }}
+        app.kubernetes.io/name: {{ include "new-chart.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ template "chart-1.serviceAccountName" . }}
+      serviceAccountName: {{ template "new-chart.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
